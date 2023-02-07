@@ -9,6 +9,6 @@ use Illuminate\Support\Facades\Mail;
 class MailController extends Controller
 {
     public function sendEmail($lead){
-        Mail::to('11rsahome@gmail.com')->send(new LeadClosed($lead));
+        Mail::to(env('MAIL_FROM_ADDRESS'))->send(new LeadClosed($lead));
     }
 }

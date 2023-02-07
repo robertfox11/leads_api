@@ -46,11 +46,16 @@ class LeadController extends Controller
         $leads = Lead::where('estado_lead', 'abierto')
             ->where('fecha_creacion', '<', Carbon::now()->subMonths(6))
             ->get();
+        $ret = ['result'=>false];
+        $message = "No existe ningun lead que sea inferior a 6 meses";
         foreach ($leads as $lead) {
             $lead->estado_lead = 'cerrado';
             $lead->fecha_cierre = Carbon::now();
             $lead->save();
+            $ret = ['result'=>true];
+            $message = "Se ha enviado correctamente el email";
             MailController::sendEmail($lead);
         }
+        return response()->json([$ret, 'message' =>$message], 200);
     }
 }

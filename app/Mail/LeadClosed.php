@@ -28,7 +28,7 @@ class LeadClosed extends Mailable
      */
     public function build()
     {
-        return $this->subject('Lead Cerrado')
+        return $this->subject('Lead 0000'. $this->lead->id. " titulo de lead ". $this->lead->titulo)
             ->view('emails.lead_closed');
     }
 }

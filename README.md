@@ -18,12 +18,55 @@ En este proyecto se creará una API de leads utilizando Laravel y se consumirá 
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
+## Para ejecutar la aplicacion
+    
+    composer global require laravel/installer
+    php artisan serve
+
 ## Creación de la API de leads con Laravel
 
 composer create-project --prefer-dist laravel/name-project
-## Crea un controlador para manejar las solicitudes de la API de leads:
+## Crea un controlador y modelo  para manejar las solicitudes de la API de leads:
 
-php artisan make:controller LeadController
+    php artisan make:controller  Api/LeadController --api --model=Lead
+    php artisan make:
+
+### Modelo Lead
+    class Lead extends Model
+    {
+        use HasFactory;
+        protected $fillable=[
+        'titulo',
+        'estado_lead',
+        'fecha_creacion',
+        'fecha_cierre'
+        ];
+    }
+
+## Datos de prueba
+     $arrays = range(0, 20);
+        $estados = ['abierto', 'rechazado', 'aceptado', 'cerrado'];
+        foreach ($estados as $es) {
+            foreach ($arrays as $valor) {
+                if ($es == 'abierto') {
+                    if ($valor <= 10) {
+                        DB::table('leads')->insert([
+                            'titulo' => "Title  $valor " . $es,
+                            'estado_lead' => $es,
+                            'fecha_creacion' => date("2022-m-d H:i:s"),
+                            'fecha_cierre' => null
+                        ]);
+                    }
+                } else {
+                    DB::table('leads')->insert([
+                        'titulo' => "Title  $valor " .$es,
+                        'estado_lead' => $es,
+                        'fecha_creacion' => date("Y-m-d H:i:s"),
+                        'fecha_cierre' => null
+                    ]);
+                }
+            }
+        }
 
 ## Caso 1 leads:
 #### LeadController Modifica el controlador para incluir una acción para devolver los leads ordenados y filtrados  por estado
@@ -142,13 +185,6 @@ php artisan make:controller LeadController
     Route::get('leads/{lead}', [LeadApiController::class, 'show']);
     Route::get('closeOldLeads',[LeadApiController::class, 'closeOldLeads']);
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
 ## Security Vulnerabilities
 

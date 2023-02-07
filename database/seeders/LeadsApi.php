@@ -15,7 +15,7 @@ class LeadsApi extends Seeder
     public function run()
     {
         $arrays = range(0, 20);
-        $estados = ['abierto', 'rechazado', 'aceptado', 'instalada', 'cerrado'];
+        $estados = ['abierto', 'rechazado', 'aceptado', 'cerrado'];
         foreach ($estados as $es) {
             foreach ($arrays as $valor) {
                 if ($es == 'abierto') {
@@ -29,7 +29,7 @@ class LeadsApi extends Seeder
                     }
                 } else {
                     DB::table('leads')->insert([
-                        'titulo' => "Title  $valor ",
+                        'titulo' => "Title  $valor " .$es,
                         'estado_lead' => $es,
                         'fecha_creacion' => date("Y-m-d H:i:s"),
                         'fecha_cierre' => null
@@ -37,6 +37,5 @@ class LeadsApi extends Seeder
                 }
             }
         }
-
     }
 }
